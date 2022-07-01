@@ -31,7 +31,10 @@ repr_text <- function(obj, ...) UseMethod('repr_text', obj)
 #' @importFrom utils capture.output
 #' @export
 repr_text.default <- function(obj, ...) {
-	paste(capture.output(print(obj)), collapse = '\n')
+    	a = options('max.print' = 10)
+	b = paste(capture.output(print(obj)), collapse = '\n')
+    	options(a)
+   	b
 }
 
 #' Representations for specific formats
