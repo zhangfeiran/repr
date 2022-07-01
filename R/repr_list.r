@@ -16,6 +16,13 @@ repr_list_generic <- function(
 	item_uses_numbers = FALSE,
 	escape_fun = identity) {
 	
+	# limit vec length
+    	parts <- partition(length(vec), 100)
+	vec <-
+	    if (is.null(parts)) (vec)
+	    else c((vec[parts$start]), ellip_h, (vec[parts$end]))
+	
+	
 	nms <- names(vec)
 	if (identical(nms, '')) {
 		nms <- NULL
