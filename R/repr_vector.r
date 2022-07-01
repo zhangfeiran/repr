@@ -38,6 +38,15 @@ repr_vector_generic <- function(
 	if (!is.null(individual_wrap)) {
 		char_vec <- sprintf(individual_wrap, char_vec, char_vec)
 	}
+							  
+	if (!is.null(nms)) {
+		nms <-
+		    if (is.null(parts)) nms
+		    else c(nms[parts$start], ellip_h, nms[parts$end])
+		if (!is.null(individual_wrap)) {
+		    nms <- sprintf(individual_wrap, nms, nms)
+		}
+   	}						  
 	
 	if (length(char_vec) > 1) {
 		entries <-
