@@ -17,10 +17,10 @@ repr_list_generic <- function(
 	escape_fun = identity) {
 	
 	# limit vec length
-    	parts <- partition(length(vec), 100)
+	parts <- partition(length(vec), 100)
 	vec <-
 	    if (is.null(parts)) (vec)
-	    else c((vec[parts$start]), ellip_h, (vec[parts$end]))
+	    else c((vec[parts$start]), chars$ellip_h, (vec[parts$end]))
 	
 	
 	nms <- names(vec)

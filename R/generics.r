@@ -31,9 +31,9 @@ repr_text <- function(obj, ...) UseMethod('repr_text', obj)
 #' @importFrom utils capture.output
 #' @export
 repr_text.default <- function(obj, ...) {
-    	a = options('max.print' = 100)
+	a = options('max.print' = getOption('repr.vector.max.items'))
 	b = paste(capture.output(print(obj)), collapse = '\n')
-    	options(a)
+	options(a)
    	b
 }
 

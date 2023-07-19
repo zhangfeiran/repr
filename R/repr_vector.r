@@ -22,6 +22,7 @@ repr_vector_generic <- function(
 	items = getOption('repr.vector.max.items')
 ) {
 	if (length(vec) == 0) return('')
+	if (is.character(vec)) vec=strtrim(vec,10000)
 	
 	nms <- names(vec)
 	if (!is.null(nms))
@@ -43,7 +44,7 @@ repr_vector_generic <- function(
 	if (!is.null(nms)) {
 		nms <-
 		    if (is.null(parts)) nms
-		    else c(nms[parts$start], ellip_h, nms[parts$end])
+		    else c(nms[parts$start], chars$ellip_h, nms[parts$end])
 		if (!is.null(individual_wrap)) {
 		    nms <- sprintf(individual_wrap, nms, nms)
 		}
