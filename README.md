@@ -1,3 +1,5 @@
+Fix the named vector bug and reduce the default max.print for list to 100
+
 repr&emsp;[![b-CI]][CI] [![b-CRAN]][CRAN]
 ====
 
