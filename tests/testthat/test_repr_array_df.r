@@ -1,5 +1,7 @@
 options(stringsAsFactors = FALSE)
 
+has_dt <- requireNamespace('data.table', quietly = TRUE)
+has_tibble <- requireNamespace('tibble', quietly = TRUE)
 
 test_that('empty data.frames work', {
 	expect_identical(repr_html(data.frame()), '')
@@ -156,7 +158,49 @@ test_that('reprs work on an 1d array', {
 	repr_html(one_d_arr)
 	repr_latex(one_d_arr)
 	repr_markdown(one_d_arr)
+	repr_text(outer)
 	succeed()
 })
 
+test_that('nested data.frames can be displayed', {
+	# jsonLite creates weird structures: jsonlite::fromJSON('[{"something":{"weird":[1,2]}}]')
+	outer <- structure(
+		list(
+			normal_col = c('c1', 'c2'),
+			something = structure(
+				list(weird = 1:2, second = c('n1', 'n2')),
+				class = "data.frame",
+				row.names = 1:2
+			)
+		),
+		class = "data.frame",
+		row.names = 1:2
+	)
+	repr_html(outer)
+	repr_latex(outer)
+	repr_markdown(outer)
+	repr_text(outer)
+	succeed()
+})
 
+test_that('data.frame with list columns can be displayed', {
+	df <- list2DF(list(a=1, b=list(1:2)))
+	expected <- '<table class="dataframe">
+<caption>A data.frame: 1 × 2</caption>
+<thead>
+\t<tr><th scope=col>a</th><th scope=col>b</th></tr>
+\t<tr><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;list&gt;</th></tr>
+</thead>
+<tbody>
+\t<tr><td>1</td><td>1, 2</td></tr>
+</tbody>
+</table>
+'
+	expect_identical(repr_html(df), expected)
+	if(has_tibble) {
+		expect_identical(repr_html(tibble::as_tibble(df)), sub('data\\.frame','tibble',expected))
+	}
+	if(has_dt) {
+		expect_identical(repr_html(data.table::as.data.table(df)), sub('data\\.frame','data.table',expected))
+	}
+})
